@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* BasePOS merchant dashboard skin.
+   Tailwind is only used by /merchant; the pay-side keeps its own print-like
+   sheets. Loading Tailwind first (main.tsx) lets index.css keep the last word
+   on the pay-side's typography and colours. */
+
+.merchant-app {
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* subtle scrollbars for the wide tables */
+.merchant-app ::-webkit-scrollbar { height: 8px; width: 8px; }
+.merchant-app ::-webkit-scrollbar-thumb { background: rgb(0 0 0 / 0.12); border-radius: 999px; }
+.merchant-app ::-webkit-scrollbar-track { background: transparent; }

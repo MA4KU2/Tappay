@@ -1,0 +1,339 @@
+/* BasePOS portals — "cheque paper & petrol ink"
+   One system for til-side and pay-side: securities-print accents hold the
+   financial feel; the rest is quiet. Light theme => legible on phones, on stage. */
+
+:root {
+  --paper: #f4f8fa;        /* cheque paper */
+  --paper-band: #e7eef3;   /* printed band on the paper */
+  --ink: #16323d;          /* petrol ink — never near-black */
+  --ink-70: rgba(22, 50, 61, 0.72);
+  --ink-45: rgba(22, 50, 61, 0.48);
+  --hairline: rgba(22, 50, 61, 0.22);
+  --hairline-soft: rgba(22, 50, 61, 0.12);
+  --stamp: #0e7a4a;        /* verified stamp + primary action */
+  --stamp-wash: rgba(14, 122, 74, 0.08);
+  --voided: #b3271e;       /* failed stamp */
+  --voided-wash: rgba(179, 39, 30, 0.07);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: "Archivo", -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "tnum" 1;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono {
+  font-family: "JetBrains Mono", monospace;
+  font-feature-settings: "zero" 1;
+}
+
+/* ── Shell ─────────────────────────────────────────────────────────── */
+.shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 18px 20px 48px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 22px;
+}
+
+.wordmark {
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: 19px;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.wordmark b { color: var(--stamp); font-weight: 800; }
+
+.wallet-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 46ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--ink-70);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 7px 10px;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.wallet-chip.is-live { border-color: var(--stamp); color: var(--ink); }
+
+.notes {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-70);
+  max-width: 62ch;
+}
+
+.notes strong { color: var(--ink); font-weight: 600; }
+
+/* ── The voucher (both portals' main card) ────────────────────────── */
+.ticket {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 22px;
+  animation: settle-in 0.38s ease-out both;
+}
+
+@keyframes settle-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 6px 1px;
+}
+
+.field {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper-band);
+  border: 1px solid var(--hairline-soft);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.field:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+
+.field-hint { font-size: 12px; color: var(--ink-45); margin-top: 5px; }
+
+/* Buttons: one filled green (act), one ink outline (choose) */
+.cta, .cta-ghost {
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 6px;
+  padding: 13px 18px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.08s ease;
+}
+
+.cta:active, .cta-ghost:active { transform: scale(0.985); }
+
+.cta { background: var(--stamp); color: #fff; }
+.cta:hover:not(:disabled) { background: #0b6a41; }
+.cta:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.cta-ghost {
+  background: none;
+  color: var(--ink);
+  border-color: var(--hairline);
+}
+.cta-ghost:hover:not(:disabled) { border-color: var(--ink); }
+
+.cta:focus-visible, .cta-ghost:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* ── Value box: the payable amount, engraved ──────────────────────── */
+.value-box {
+  position: relative;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  padding: 18px 20px 20px;
+  background-image: repeating-linear-gradient(
+    -60deg,
+    rgba(22, 50, 61, 0.055) 0 1px,
+    transparent 1px 24px
+  );
+}
+
+.value-box .small-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink-70);
+}
+
+.value-amount {
+  font-weight: 800;
+  font-stretch: 108%;
+  font-size: clamp(38px, 12vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
+}
+
+.value-amount .unit { font-size: 0.42em; font-weight: 600; color: var(--ink-70); letter-spacing: 0.04em; }
+
+.value-meta { font-size: 12.5px; color: var(--ink-45); margin-top: 6px; }
+
+/* ── Security band: the verification checks as printed strip ──────── */
+.security-band {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline-soft);
+  padding: 10px 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.security-band .ok { color: var(--stamp); }
+.security-band .bad { color: var(--voided); background: var(--voided-wash); border-radius: 3px; padding: 0 4px; }
+.security-band .wait { color: var(--ink-45); }
+
+.band-note {
+  width: 100%;
+  font-size: 12.5px;
+  color: var(--ink-70);
+  font-weight: 400;
+}
+
+/* ── QR plate with printer's crop marks ───────────────────────────── */
+.qr-plate {
+  position: relative;
+  background: var(--paper-band);
+  border-radius: 4px;
+  padding: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-plate::before, .qr-plate::after,
+.qr-crop::before, .qr-crop::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--ink);
+  border-style: solid;
+}
+
+.qr-plate::before { top: 8px; left: 8px; border-width: 1.5px 0 0 1.5px; }
+.qr-plate::after { top: 8px; right: 8px; border-width: 1.5px 1.5px 0 0; }
+.qr-crop::before { bottom: 8px; left: 8px; border-width: 0 0 1.5px 1.5px; }
+.qr-crop::after { bottom: 8px; right: 8px; border-width: 0 1.5px 1.5px 0; }
+
+/* ── Ledger steps + stamps ────────────────────────────────────────── */
+.ledger-step {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  font-size: 14px;
+}
+
+.ledger-step .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ink-45);
+  flex: none;
+  transform: translateY(-1px);
+}
+.ledger-step.is-active .dot { background: var(--ink); }
+.ledger-step.is-done .dot { background: var(--stamp); }
+.ledger-step.is-error .dot { background: var(--voided); }
+
+.verified-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  border: 1.5px solid var(--stamp);
+  border-radius: 4px;
+  padding: 4px 9px;
+  background: var(--stamp-wash);
+}
+
+.danger-banner {
+  border: 1px solid var(--voided);
+  border-radius: 6px;
+  background: var(--voided-wash);
+  color: var(--ink);
+  font-size: 13.5px;
+  line-height: 1.5;
+  padding: 10px 12px;
+}
+
+.sandbox-banner {
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: var(--paper-band);
+  font-size: 13px;
+  color: var(--ink-70);
+  padding: 9px 12px;
+  line-height: 1.5;
+}
+
+/* ── Till-side layout ─────────────────────────────────────────────── */
+.till-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 26px;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .till-grid { grid-template-columns: 1fr; }
+}
+
+.pay-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  max-width: 470px;
+  margin: 0 auto;
+}
+
+.countdown {
+  font-size: 13px;
+  color: var(--ink-70);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 4px 0;
+}
+
+.countdown b { color: var(--ink); font-weight: 700; }
+
+.kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 13.5px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.kv:last-child { border-bottom: 0; }
+.kv .k { color: var(--ink-70); }
+.kv .v { text-align: right; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+

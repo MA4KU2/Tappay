@@ -1,0 +1,51 @@
+/* Legacy simulation route (fallback demo) — was the old global stylesheet. */
+.sim-stage {
+  background: #0a0e17;
+  color: #f1f5f9;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+.sim-stage .btn-primary {
+  background: linear-gradient(135deg, #0052ff 0%, #003ebd 100%);
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sim-stage .btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -4px rgba(0, 82, 255, 0.5);
+}
+
+.sim-stage .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.sim-stage .phone-mockup {
+  border-radius: 40px;
+  background: #0f172a;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 10px #1e293b, 0 0 0 12px #334155;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-stage .phone-notch {
+  width: 140px;
+  height: 24px;
+  background: #1e293b;
+  margin: 0 auto;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* the old demo uses Tailwind-style animation utility names without Tailwind */
+.sim-stage .animate-spin { animation: sim-spin 1s linear infinite; }
+.sim-stage .animate-pulse { animation: sim-pulse 1.6s ease-in-out infinite; }
+@keyframes sim-spin { to { transform: rotate(360deg); } }
+@keyframes sim-pulse { 50% { opacity: 0.4; } }
+
